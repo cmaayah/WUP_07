@@ -1,7 +1,7 @@
 ---
 title: "covid 19"
-author: "Dr K"
-date: "5/2/2020"
+author: "Christina Maayah"
+date: "DECEMBER 3 2020"
 output:
   html_document: default
   pdf_document: default
@@ -18,45 +18,47 @@ kRdata <- read.csv(file = 'kRdata.csv')
 ### Data is from the Patient_Info dataset from South Korea 1 Jan to 1 May 
 ### This is contained in a downloadable zip file from kaggle
 
+$H_0$:no difference between death rate due to covid 19 betwen men and women   
+
+$H_1$: there is a difference betwen rate due to covid 19 between men and women
+
 Some of the data was uncoded for sex - sex must be just male or female
 77 of the data entries were coded sex  as blank, so we omit these.
 state of a patient must be died or alive - we adjust that as well   
   
 # Question 1 - Is dying independent of sex
 
-
-
-
-Table of patients:
-```{r}
-
-# cross tabulation, patient state by gender
-
-with(kRdata, table(Sex, result))
-
-```
-
 ## We create two bar charts - one based on frequency and the other on percent
 
+
 ```{r}
-barchartGC(~result + Sex,data=kRdata, main ="Frequency Bar Chart")
+barchartGC(~result + sex,data=kRdata)
+barchartGC(~result + sex,data=kRdata, type="percent")
+
 ```
-
   
-### this bar chart is displaying in total frequency terms our data.  Clearly there are a lot less dead people than alive people as is reflected by the sizes of the bars in the display.  
-
-
-
-
-
+the bar chart shows that more males than femals had daied from covid 19 
+ 
+Table of patients:
+```{r}
+table1 <- xtabs(~result + sex,data=kRdata)
+rowPerc(table1)
+colPerc(table1)
+print(table1)
+```
   
-## Numerical results
+the numerical summury shows the larger pricentage of males died than the females 
+  
 
-
-## Inferential results 
-
-
-
-
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+  
+the oods of diiying if youre  a male 2.3 times grater then if your a female   
+95 percent confidence interval is 1.4 to  3.9 . this means that the oods of men diying are significantly grater than the females   
+  
 ## Conclusions
-
+  
+diying is not independent of sex , men are most likely to die than womens 
